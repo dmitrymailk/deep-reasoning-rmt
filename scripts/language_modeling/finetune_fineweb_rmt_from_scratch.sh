@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # CUDA_VISIBLE_DEVICES=1,2 NP=2 ./finetune_babilong_baseline.sh
 set -e
-
+export WANDB_PROJECT=rmt_pretrain
 # SCRIPT_DIR=/workspace-SR006.nfs2/bulatov/rmt/reasoning/deep-reasoning
 # RUNS_DIR=/workspace-SR006.nfs2/bulatov/rmt/runs
 
-SCRIPT_DIR=/home/jovyan/bulatov/rmt/reasoning/deep-reasoning
-RUNS_DIR=/home/jovyan/bulatov/rmt/runs
+# SCRIPT_DIR=/home/jovyan/bulatov/rmt/reasoning/deep-reasoning
+SCRIPT_DIR=/code
+RUNS_DIR=/code/runs
+mkdir -p RUNS_DIR 
 
 CUBLAS_WORKSPACE_CONFIG=:4096:2
 CUDA_LAUNCH_BLOCKING=1
@@ -21,11 +23,12 @@ METRIC=exact_match
 MODEL_NAME=SmolLM2-135M
 FROM_PRETRAINED=HuggingFaceTB/SmolLM2-135M
 
-TASK_DATASET=HuggingFaceFW/fineweb-edu
+# TASK_DATASET=HuggingFaceFW/fineweb-edu
+TASK_DATASET=Salesforce/wikitext
 
 ITERS=100000
-TBS=256
-BS=32
+TBS=16
+BS=8
 
 for LR in 3e-03
 do
